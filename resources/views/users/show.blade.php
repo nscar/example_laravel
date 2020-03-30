@@ -2,14 +2,20 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    @if ($user->id === auth()->id())
+        <div class="alert alert-info">
+            You are seeing your own profile in public mode.
+            <a href="{{ route('home') }}">Click here</a> to manage your entries and tweets.
+        </div>
+    @endif
 
+    <div class="row justify-content-center">
         <div class="col-md-4">
-         <div class="card">
+            <div class="card">
                 <div class="card-header">Tweets</div>
 
                 <div class="card-body">
-                        API
+                    Twitter API
                 </div>
             </div>
         </div>
@@ -19,20 +25,13 @@
                 <div class="card-header">{{ $user->name }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-            <p>Published entries:</p>
-              <ul>
-                    @foreach($entries as $entry)
-                    <li>
-                   {{-- <a href="{{ url('entries/'.$entry->slug.'-'.$entry->id) }}">{{ $entry->title}}</a> --}}
-                   <a href="{{ $entry->getUrl() }}">{{ $entry->title}}</a>
-                    </li>
-                    @endforeach
+                    <p>Published entries:</p>
+                    <ul>
+                        @foreach ($entries as $entry)
+                            <li>
+                                <a href="{{ $entry->getUrl() }}">{{ $entry->title }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -40,3 +39,5 @@
     </div>
 </div>
 @endsection
+
+
